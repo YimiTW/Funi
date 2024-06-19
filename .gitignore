@@ -1,14 +1,5 @@
-activate_venv.txt
 .venv
-learn_python.py
-mika_snapshot.py
-data_extract.py
-download_mistral.py
-mistral_inference
-login_huggingface.py
-mistral_7b_v0.3_chatbot
-mistral_7b_v0.3_mika
 llama3_8b_instruct
-gui.py
 test.py
-funny_chat_log.txt
+.env
+chat_data
