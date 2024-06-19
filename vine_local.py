@@ -1,6 +1,7 @@
 import vine
 
 user = input("Please enter your name: ")
+vine.mode = 'local'
 
 if user == "/exit":
     quit()
@@ -15,13 +16,10 @@ while True:
                 break
     else:
         now = vine.datetime.datetime.now()
-        response = vine.main_request(text_input, user)
+        response = vine.main_request(text_input, user, vine.chat_data_all_path)
         
         vine.json_data["roles"].extend([
             {"role": "系統", "content": f"今天的日期是{now.strftime('%Y-%m-%d')}, 現在時間是{now.strftime('%H:%M:%S')}"},
             {"role": user, "content": text_input},
             {"role": "藤", "content": response}
         ])
-
-        vine.save_chat_data(vine.json_data)
-        print(f"\n藤: {response}")

@@ -2,6 +2,8 @@ import discord
 import vine
 import os
 
+vine.mode = 'discord'
+
 # client是跟discord連接，intents是要求機器人的權限
 intents = discord.Intents.default()
 intents.message_content = True
@@ -30,19 +32,17 @@ async def on_message(message):
     input_text = message.content
 
     # print user message
-    print(f"{display_name}: {input_text}")
+    print(f"\n{display_name}: {input_text}")
 
-    vine_response = vine.discord_request(input_text, display_name)
+    vine_response = vine.main_request(input_text, display_name, vine.chat_data_all_path)
     if vine_response == "<skip>":
-        print(f"藤: skip\n")
+        print(f"\n藤: skip")
     elif len(vine_response) > 2000:
-        print(f"藤: {vine_response}\n")
         msg1 = vine_response[:2000]
         await message.channel.send(msg1)
         msg2 = vine_response.replace(msg1, '')
         await message.channel.send(msg2)
     else:
-        print(f"藤: {vine_response}\n")
         await message.channel.send(vine_response)
 
 client.run(os.getenv('token'))
