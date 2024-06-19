@@ -3,3 +3,4 @@ llama3_8b_instruct
 test.py
 .env
 chat_data
+__pycache__
