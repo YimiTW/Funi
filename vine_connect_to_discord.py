@@ -34,15 +34,9 @@ async def on_message(message):
     # print user message
     print(f"\n{display_name}: {input_text}")
 
-    vine_response = vine.main_request(input_text, display_name, vine.chat_data_all_path)
-    if vine_response == "<skip>":
-        print(f"\n藤: skip")
-    elif len(vine_response) > 2000:
-        msg1 = vine_response[:2000]
-        await message.channel.send(msg1)
-        msg2 = vine_response.replace(msg1, '')
-        await message.channel.send(msg2)
-    else:
+    vine_response = vine.main_request(input_text, display_name)
+
+    if vine_response != "<skip>":
         await message.channel.send(vine_response)
 
 client.run(os.getenv('token'))

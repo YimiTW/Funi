@@ -4,3 +4,4 @@ test.py
 .env
 chat_data
 __pycache__
+json_guild.py
