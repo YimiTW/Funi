@@ -7,10 +7,13 @@ import json
 import datetime
 import os
 import torch
+
 print(f"\nCuda Usage:  {torch.cuda.is_available()}\n")
 
 from dotenv import load_dotenv
 load_dotenv()
+
+
 
 # Initialize model and tokenizer
 funi_name = "藤藤"
@@ -35,13 +38,6 @@ model = AutoModelForCausalLM.from_pretrained(
 # end pining
 end_time = time.time()
 print(f"\n[ Load take {int((end_time-start_time)*1000)}ms ]\n")
-
-# Load chat data
-try:
-    with open(chat_data_all_path, "r") as f:
-        json_data = json.load(f)
-except:
-    json_data = {"roles": []}
 
 def load_chat_data():
     chat_data = []
@@ -77,9 +73,7 @@ def generate_response(messages):
 
     return response
 
-def chat_keywords(current_messages):
-
-    
+def chat_keywords(current_messages):  
     input_ids = tokenizer.apply_chat_template(
         current_messages, 
         add_generation_prompt=True, 
@@ -96,8 +90,7 @@ def chat_keywords(current_messages):
         )
     
     chat_topic = tokenizer.decode(outputs[0][input_ids.shape[-1]:], skip_special_tokens=True)
-    
-    current_messages.pop()  # Remove the added response
+
     return chat_topic
 
 def save_chat_data(text_input, username, keywords):
