@@ -1,5 +1,5 @@
 torch
 transformers
+accelerate
 python-dotenv
 discord.py
-accelerate

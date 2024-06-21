@@ -1,17 +1,21 @@
 import discord
-import vine
 import os
+import time
 
+import vine
+# shitch to discord mode
 vine.mode = 'discord'
+
+from dotenv import load_dotenv
+# load .env
+load_dotenv()
 
 # client是跟discord連接，intents是要求機器人的權限
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # 調用event函式庫
 @client.event
