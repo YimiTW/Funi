@@ -3,7 +3,7 @@ import os
 import time
 
 import funi
-# shitch to discord mode
+# switch to discord mode
 funi.mode = 'discord'
 
 from dotenv import load_dotenv
