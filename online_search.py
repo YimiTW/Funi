@@ -39,5 +39,3 @@ for i in range(len(url_list)):
         print(driver.title)
     except:pass
     time.sleep(5)
-
-

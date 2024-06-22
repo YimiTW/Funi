@@ -40,7 +40,7 @@ async def on_message(message):
 
     funi_response = funi.main_request(input_text, display_name)
 
-    if funi_response != "<skip>":
+    if funi_response != "*skip*":
         await message.channel.send(funi_response)
 
 client.run(os.getenv('token'))
