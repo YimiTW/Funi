@@ -6,3 +6,7 @@ chat_data
 __pycache__
 json_guild.py
 chromedriver
+chat_data_backup
+llama3_8b_instruct_chinese
+llama3_8b_instruct
+json_dataset

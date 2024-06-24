@@ -29,7 +29,6 @@ async def on_message(message):
     # 排除機器人本身的訊息，避免無限循環
     if message.author == client.user:
         return
-    
     username = message.author.name
     user_id = message.author.id
     display_name = message.author.display_name

@@ -8,6 +8,4 @@ if user == "/exit":
 
 while True:
     text_input = input(f"\n{user}: ")
-
-    now = funi.datetime.datetime.now()
     response = funi.main_request(text_input, user)
