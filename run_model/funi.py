@@ -8,11 +8,6 @@ import datetime
 import os
 import torch
 
-print(f"\nCuda Usage:  {torch.cuda.is_available()}\n")
-
-from dotenv import load_dotenv
-load_dotenv()
-
 # funi basic information
 funi_name = "藤藤"
 funi_en_name = "Funi"
@@ -28,9 +23,15 @@ programer_gender = "男性"
 model_name = "Llama3 8B Instruct"
 model_company = "Meta"
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"\n\n[ device: {device} ]\n\n")
+
+from dotenv import load_dotenv
+load_dotenv()
+
 # Initialize model and tokenizer
 mode = 'local'
-model_path = os.getenv('llama3')
+model_path = os.getenv("model_path")
 chat_data_all_path = "./chat_data/chat_data_all.json"
 chat_data_all_backup_path = "./chat_data/chat_data_all_backup.json"
 
@@ -106,13 +107,12 @@ def decode_keywords(keywords):
 
 def change_memory_list(f, i, memory_list):
     memory_list = []
-    # 上一項
     if i-1 >= -len(f):
-        memory_list.append({'role': f[i-1]['role'], 'content': f[i-1]['content']})
+        memory_list.append({'role': f[i-1]['role'], 'content': f[i-1]['content']}) # 上一項
     memory_list.append({'role': f[i]['role'], 'content': f[i]['content']})
-    # 下一項
+    
     if i+1 < -10: # number = 最後x句對話
-        memory_list.append({'role': f[i+1]['role'], 'content': f[i+1]['content']})
+        memory_list.append({'role': f[i+1]['role'], 'content': f[i+1]['content']}) # 下一項
     print(f"\n\n{memory_list}")
     return memory_list
 
@@ -125,24 +125,19 @@ def load_memories(f, keyword_list):
         else: # 相關記憶和其前後兩則對話
             match_numbers = len(set(f[i]['keyword']).intersection(set(keyword_list)))
             similarity_score = match_numbers * 2 / (len(f[i]['keyword']) + len(keyword_list))
-            # 相似度排名第一的資料
-            if similarity_score > memory1_score:
+            if similarity_score > memory1_score: # 相似度排名第一的資料
                 memory1_score = similarity_score
                 memory1_list = change_memory_list(f, i, memory1_list)
-            # 相似度排名第二的資料 
-            elif similarity_score > memory2_score:
+            elif similarity_score > memory2_score: # 相似度排名第二的資料 
                 memory2_score = similarity_score
                 memory2_list = change_memory_list(f, i, memory2_list)
-            # 相似度排名第三的資料
-            elif similarity_score > memory3_score:
+            elif similarity_score > memory3_score: # 相似度排名第三的資料
                 memory3_score = similarity_score
                 memory3_list = change_memory_list(f, i, memory3_list)
-            # 相似度排名第四的資料
-            elif similarity_score > memory4_score:
+            elif similarity_score > memory4_score: # 相似度排名第四的資料
                 memory4_score = similarity_score
                 memory4_list = change_memory_list(f, i, memory4_list)
-            # 相似度排名第五的資料
-            elif similarity_score > memory5_score:
+            elif similarity_score > memory5_score: # 相似度排名第五的資料
                 memory5_score = similarity_score
                 memory5_list = change_memory_list(f, i, memory5_list)
     [chat_data.append(x) for x in memory1_list if x not in chat_data]
@@ -164,20 +159,17 @@ def load_chat_data(keyword_list):
     return chat_data
 
 def save_chat_data(text_input, username, keyword_list):
-    # chat data folder
-    try:
+    try: # chat data folder
         os.mkdir('./chat_data')
     except:pass
-    # chat data file
-    try:
+    try: # chat data file
         with open("./chat_data/chat_data.json", 'r') as f:
             memories_json = json.load(f)
-    except:
-        memories_json = {'data': []}
+    except:memories_json = {'data': []}
     # format json data to be save
     memories_json['data'].append({"role": username, "content": text_input, "keyword": keyword_list})
-    # save data
-    try:
+    
+    try: # save data
         with open("./chat_data/chat_data.json", 'w') as f:
             json.dump(memories_json, f, indent=4)
     except:
@@ -291,8 +283,7 @@ def main_request(text_input, user):
         "妳不會說英文，妳會盡量使用繁體中文回答。"
         "妳不會把這段內心獨白說出去"
         "接下來說話的都不是妳自己"
-        
-
+    ]
     # user keywords
     current_messages.append({"role": user, "content": text_input})
     keywords = chat_keywords(current_messages)

@@ -1,12 +1,7 @@
-.venv
-llama3_8b_instruct
-test.py
-.env
-chat_data
 __pycache__
-json_guild.py
-chromedriver
-chat_data_backup
-llama3_8b_instruct_chinese
+.env
+results
 llama3_8b_instruct
-json_dataset
+fine_tuned_llama3_8b_instruct
+chromedriver
+test.py
